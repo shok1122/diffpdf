@@ -1,18 +1,21 @@
 import sys
-import tika
 import glob
 import pprint
 
-from tika import parser
 from fuzzywuzzy import fuzz
+
+from pdf_reader import PdfReader
 
 def calc(path_file1, path_file2):
 
-    parsed1 = parser.from_file(path_file1)
-    parsed2 = parser.from_file(path_file2)
+    pdf1 = PdfReader()
+    pdf2 = PdfReader()
 
-    content1 = parsed1['content']
-    content2 = parsed2['content']
+    pdf1.open(path_file1)
+    pdf2.open(path_file2)
+
+    content1 = pdf1.get_text()
+    content2 = pdf2.get_text()
 
     score = fuzz.ratio(content1, content2)
 
